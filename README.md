@@ -9,7 +9,7 @@ my approach, methodology, and solutions.
 ## Categories
 | Category | Challenges Solved |
 |----------|------------------|
-| General Skills | 0 |
+| General Skills | 2 |
 | Cryptography | 0 |
 | Forensics | 0 |
 | Web Exploitation | 0 |
