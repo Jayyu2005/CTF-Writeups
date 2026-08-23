@@ -3,7 +3,6 @@
 **Platform:** picoCTF  
 **Category:** General Skills  
 **Difficulty:** Easy  
-**Points:** 20  
 
 ## Description
 Do you know how to move between directories and read files in 
