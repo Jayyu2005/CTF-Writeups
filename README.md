@@ -1,1 +1,20 @@
-# CTF-Writeups
+# CTF Writeups
+
+A collection of my Capture The Flag challenge writeups documenting 
+my approach, methodology, and solutions.
+
+## Platforms
+- picoCTF
+
+## Categories
+| Category | Challenges Solved |
+|----------|------------------|
+| General Skills | 5 |
+| Cryptography | 0 |
+| Forensics | 0 |
+| Web Exploitation | 0 |
+
+## Purpose
+These writeups document my problem solving process and methodology 
+for each challenge. Each writeup explains the tools used, approach 
+taken, and lessons learned.
