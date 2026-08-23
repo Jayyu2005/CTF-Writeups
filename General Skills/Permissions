@@ -1,0 +1,79 @@
+# Permissions
+
+**Platform:** picoCTF  
+**Category:** General Skills  
+**Difficulty:** Medium  
+**Points:** 100  
+
+## Description
+Can you read files in the root file? The system admin has 
+provisioned an account for you on the main server.
+
+ssh -p 57290 picoplayer@saturn.picoctf.net  
+Password: Hks-9nxB-
+
+Can you login and read the root file?
+
+## Approach
+The challenge is about Linux file permissions and privilege 
+escalation. The flag is stored in the root directory which 
+regular users cannot access. The goal is to find a way to 
+read the file using elevated privileges.
+
+## Solution
+
+### Step 1 — Connect via SSH
+Connected to the remote server using the provided credentials.
+
+```bash
+ssh -p 62531 picoplayer@saturn.picoctf.net
+```
+
+Entered password when prompted: j4ks-9nxB-
+
+### Step 2 — Check Sudo Permissions
+Ran sudo -l to see what commands the current user 
+is allowed to run with elevated privileges.
+
+```bash
+sudo -l
+```
+
+Output showed: User picoplayer may run the following commands on challenge:
+(ALL) /usr/bin/vi
+
+
+
+This means picoplayer cannot directly access /root/ but 
+can run vi as root using sudo.
+
+### Step 3 — Privilege Escalation via Vi
+Used sudo to open vi with root privileges then used vi's 
+built in file explorer to navigate to the root directory.
+
+```bash
+sudo vi test
+```
+
+Inside vi used the Netrw directory explorer to browse 
+to the root directory: :e /root/
+
+
+
+This revealed the directory contents including a hidden 
+file called .flag.txt
+
+### Step 4 — Read the Flag
+Opened the hidden flag file directly inside vi: :e /root/.flag.txt
+
+
+The flag was displayed inside the editor.
+
+## Flag: picoCTF{uS1ng_v1m_3dit0r_021d10ab}
+
+
+## What I Learned
+How to check sudo permissions using sudo -l and how to 
+exploit vi's file reading capabilities when it is granted 
+sudo access — a real world privilege escalation technique 
+known as a GTFOBin exploit.
