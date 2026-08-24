@@ -1,0 +1,50 @@
+# First Grep
+
+**Platform:** picoCTF  
+**Category:** General Skills  
+**Difficulty:** Easy  
+
+## Description
+Can you find the flag in file? This would be really 
+tedious to look through manually, can you use a 
+command to search the file?
+
+## Approach
+The challenge provides a file containing a large amount 
+of text. The flag is hidden somewhere inside it. Instead 
+of reading through every line manually the goal is to 
+use grep to search for the flag format instantly.
+
+## Solution
+
+### Step 1 — Download the File
+Downloaded the provided file from the challenge page.
+
+### Step 2 — Search for the Flag Using Grep
+Used grep to search through the file for any line 
+containing the picoCTF flag format.
+
+```bash
+grep "picoCTF" file
+```
+
+Grep instantly returned the line containing the flag 
+without having to read through the entire file manually.
+
+## Commands Used
+```bash
+grep "picoCTF" file
+```
+
+## Flag
+picoCTF{grep_is_good_to_find_things_e3C4b360}
+
+
+## What I Learned
+How to use grep to search for specific patterns inside 
+files. Grep is one of the most useful command line tools 
+in security work — used for searching log files for 
+suspicious activity, finding specific strings in code, 
+and filtering output from other commands. Combined with 
+pipes it becomes even more powerful as demonstrated in 
+the Plumbing challenge.
