@@ -1,0 +1,80 @@
+# Serpentine
+
+**Platform:** picoCTF  
+**Category:** General Skills  
+**Difficulty:** Medium  
+
+## Description
+Find the flag in the Python script!
+
+## Approach
+The challenge provides a Python script to download and 
+analyze. The flag is encoded inside the script but the 
+function that prints it is never called. The solution 
+is to read the source code, understand what each function 
+does, and modify the script to call the flag printing 
+function.
+
+## Solution
+
+### Step 1 — Download and Open the Script
+Downloaded serpentine.py and opened it to read the 
+source code.
+
+Key observations from reading the code:
+- `flag_enc` stores the encrypted flag as a series of 
+  hex characters
+- `str_xor` is a function that decrypts the flag using 
+  XOR with the key "enkidu"
+- `print_flag()` calls str_xor to decrypt and print 
+  the flag
+- `print_encouragement()` prints random encouragement 
+  messages
+- The main loop only calls print_encouragement() — 
+  print_flag() is never called
+
+### Step 2 — Identify the Problem
+The script has a menu with choices but the option that 
+was supposed to print the flag was replaced with a 
+string that just says the flag was forgotten. The 
+print_flag() function exists but is never executed.
+
+### Step 3 — Modify the Script
+Found the section in the code where choice b was 
+supposed to call print_flag() but instead printed 
+a decoy message. Replaced the decoy string with 
+the actual function call:
+
+Changed:
+```python
+print('Oops! I must have forgotten the flag')
+```
+
+To:
+```python
+print_flag()
+```
+
+### Step 4 — Run the Modified Script
+Ran the modified script and selected the option 
+that now calls print_flag(). The flag was 
+decrypted and printed successfully.
+
+```bash
+python3 serpentine.py
+```
+
+## Flag
+picoCTF{7h3_r04d_l355_7r4v3l3d_ae0b80bd}
+
+
+## What I Learned
+How to read and analyze Python source code to understand 
+what a program does before running it. The flag was 
+hidden using XOR encryption with a hardcoded key — 
+a common obfuscation technique in CTFs and malware. 
+Reading source code carefully to find dormant functions 
+that are never called is a fundamental reverse 
+engineering and code analysis skill used in real 
+security work when analyzing suspicious scripts 
+or applications.
