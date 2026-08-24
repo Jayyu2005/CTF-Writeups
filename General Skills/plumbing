@@ -1,0 +1,68 @@
+# Plumbing
+
+**Platform:** picoCTF  
+**Category:** General Skills  
+**Difficulty:** Medium  
+
+## Description
+Sometimes you need to handle process data outside of a file. 
+Can you find a way to keep the output from this program 
+and search for the flag?
+
+Connect to fickle-tempest.picoctf.net 57933
+
+## Approach
+The challenge connects to a server that outputs thousands 
+of lines of decoy text mixed with the flag. Reading through 
+it manually is impossible. The solution is to pipe the 
+server output directly into grep to filter out everything 
+except the flag.
+
+## Solution
+
+### Step 1 — Connect and Observe
+First connected to the server using netcat to see what 
+it was outputting.
+
+```bash
+nc fickle-tempest.picoctf.net 57933
+```
+
+The server returned thousands of lines of decoy text like:
+- "Not a flag either"
+- "I don't think this is a flag either"  
+- "This is definitely not a flag"
+- "Again, I really don't think this is a flag"
+
+Clearly impossible to find the flag manually.
+
+### Step 2 — Pipe Output into Grep
+Used the pipe operator to connect netcat's output 
+directly into grep, filtering for lines containing 
+the picoCTF flag format.
+
+```bash
+nc fickle-tempest.picoctf.net 57933 | grep "picoCTF"
+```
+
+Grep instantly filtered through all the noise and 
+returned only the line containing the flag.
+
+## Commands Used
+```bash
+nc fickle-tempest.picoctf.net 57933 | grep "picoCTF"
+```
+
+## Flag
+picoCTF{digital_plumb3r_11fffFE5}
+
+
+## What I Learned
+How to use the pipe operator to chain commands together. 
+Instead of saving the server output to a file and then 
+searching it, piping sends the output of one command 
+directly into another in real time. This is a fundamental 
+Linux skill used constantly in security work — filtering 
+live log output, searching command results, and chaining 
+multiple filters together to narrow down exactly what 
+you are looking for.
