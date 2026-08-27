@@ -1,0 +1,58 @@
+# ASCII Numbers
+
+**Platform:** picoCTF  
+**Category:** General Skills  
+**Difficulty:** Medium  
+
+## Description
+Convert the following string of ASCII numbers into a 
+readable string:
+
+0x70 0x69 0x63 0x6f 0x43 0x54 0x46 0x7b 0x34 0x35 
+0x63 0x31 0x31 0x5f 0x6e 0x30 0x5f 0x71 0x75 0x33 
+0x35 0x37 0x31 0x30 0x6e 0x35 0x5f 0x31 0x6c 0x6c 
+0x5f 0x74 0x33 0x31 0x31 0x5f 0x79 0x33 0x5f 0x6e 
+0x30 0x5f 0x6c 0x31 0x33 0x35 0x5f 0x34 0x34 0x35 
+0x64 0x34 0x31 0x38 0x30 0x7d
+
+## Approach
+The challenge provides a string of hexadecimal values 
+that represent ASCII characters. Each hex value maps 
+to a specific character — converting them all reveals 
+the flag. Used CyberChef to automate the conversion 
+instead of decoding each value manually.
+
+## Solution
+
+### Step 1 — Identify the Encoding
+Recognized that each value starting with 0x is a 
+hexadecimal number. In ASCII, hex values map directly 
+to characters — for example 0x70 = 'p', 0x69 = 'i', 
+0x63 = 'c', 0x6f = 'o' which spells the start of 
+picoCTF.
+
+### Step 2 — Use CyberChef to Decode
+Opened CyberChef and used the From Charcode operation 
+with base 16 to convert all hex values to their 
+corresponding ASCII characters simultaneously.
+
+Pasted the hex string into the input and the output 
+revealed the full flag instantly.
+
+## Tools Used
+- CyberChef — From Charcode operation, base 16
+
+## Flag
+picoCTF{45c11_n0_qu35710n5_1ll_t311_y3_n0_l135_445d4180}
+
+
+## What I Learned
+How ASCII encoding works — every character has a 
+corresponding decimal and hexadecimal number. 
+Understanding hex to ASCII conversion is fundamental 
+in CTFs and real security work when analyzing malware, 
+network packets, or encoded payloads. CyberChef is 
+an essential tool for quickly decoding and transforming 
+data without writing custom scripts — used regularly 
+by SOC analysts and security engineers for rapid 
+analysis of suspicious data.
