@@ -3,8 +3,7 @@
 A collection of my Capture The Flag challenge writeups documenting 
 my approach, methodology, and solutions.
 
-## Platforms
-- picoCTF
+![picoCTF](https://picoctf.org/img/logos/picoctf-logo.svg)
 
 ## Categories
 | Category | Challenges Solved |
