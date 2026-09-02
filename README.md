@@ -11,7 +11,7 @@ my approach, methodology, and solutions.
 | General Skills | 7 |
 | Cryptography | 0 |
 | Forensics | 0 |
-| Web Exploitation | 0 |
+| Web Exploitation | 2 |
 
 ## Purpose
 These writeups document my problem solving process and methodology 
