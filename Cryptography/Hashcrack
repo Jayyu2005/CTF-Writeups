@@ -1,0 +1,83 @@
+# hashcrack
+
+**Platform:** picoCTF
+**Category:** Cryptography
+**Difficulty:** Easy
+
+## Description
+A company stored a secret message on a server which got breached due to the admin using weakly hashed passwords. Can you gain access to the secret stored within the server?
+
+## Approach
+Connected to the challenge server using netcat and was presented with three hashes sequentially. The hints pointed toward identifying each hash algorithm by its structure and length, then cracking each one using hash lookup tools before the server would reveal the next hash and ultimately the flag.
+
+## Solution
+
+### Step 1 — Connect to the Server
+```bash
+nc verbal-sleep.picoctf.net 50881
+```
+The server greeted with `Welcome!! Looking For the Secret?` and immediately presented the first hash to crack.
+
+### Step 2 — Crack Hash 1 (MD5)
+The server presented:
+```
+482c811da5d5b4bc6d497ffa98491e38
+```
+The 32 character length identified this as MD5. MD5 produces a 128-bit output represented as 32 hexadecimal characters. Pasted the hash into CrackStation which reversed it instantly against a precomputed rainbow table.
+
+**Cracked:** `password123`
+
+The server confirmed: `Correct! You've cracked the MD5 hash with no secret found!`
+
+### Step 3 — Crack Hash 2 (SHA-1)
+The server presented:
+```
+b7a875fc1ea228b9061041b7cec4bd3c52ab3ce3
+```
+The 40 character length identified this as SHA-1. SHA-1 produces a 160-bit output represented as 40 hexadecimal characters. SHA-1 has been deprecated for security use since 2017 due to demonstrated collision vulnerabilities. Pasted into CrackStation for lookup.
+
+**Cracked:** `letmein`
+
+The server confirmed: `Correct! You've cracked the SHA-1 hash with no secret found!`
+
+### Step 4 — Crack Hash 3 (SHA-256)
+The server presented:
+```
+916e8c4f79b25028c9e467f1eb8eee6d6bbdff965f9928310ad30a8d88697745
+```
+The 64 character length identified this as SHA-256. SHA-256 produces a 256-bit output represented as 64 hexadecimal characters. While stronger than MD5 and SHA-1, SHA-256 is still unsuitable for password hashing alone because it is designed to be fast, making it vulnerable to dictionary attacks when the underlying password is weak. Pasted into CrackStation for lookup.
+
+**Cracked:** `qwerty098`
+
+The server confirmed: `Correct! You've cracked the SHA-256 hash with a secret found.`
+
+### Step 5 — Retrieve the Flag
+With all three hashes cracked the server revealed the flag:
+```
+picoCTF{UseStr0nG_h@shEs_&PaSswDs!_6965e43b}
+```
+
+## How To Identify Hashes By Length
+
+| Length | Algorithm |
+|--------|-----------|
+| 32 characters | MD5 |
+| 40 characters | SHA-1 |
+| 64 characters | SHA-256 |
+
+## Tools Used
+- Netcat — server connection
+- CrackStation — hash lookup and cracking
+- Hash length analysis — algorithm identification
+
+## Flag
+```
+picoCTF{UseStr0nG_h@shEs_&PaSswDs!_6965e43b}
+```
+
+## What I Learned
+The core vulnerability here was not the hashing algorithm failing — it was weak passwords being used with fast hashing functions. Even SHA-256 can be cracked almost instantly when the password exists in a common wordlist like rockyou.txt.
+
+Hash identification by output length is a fundamental cryptography skill. MD5 at 32 characters, SHA-1 at 40, and SHA-256 at 64 are patterns worth memorizing for any CTF or real world investigation.
+
+Production systems should never use MD5, SHA-1, or raw SHA-256 for password storage. Purpose-built password hashing functions like bcrypt, scrypt, or Argon2 are intentionally slow and computationally expensive, making brute force attacks impractical even when the underlying password is weak. The challenge name says it all — use strong hashes and strong passwords.
