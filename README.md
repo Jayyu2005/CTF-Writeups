@@ -9,8 +9,8 @@ my approach, methodology, and solutions.
 | Category | Challenges Solved |
 |----------|------------------|
 | General Skills | 7 |
-| Cryptography | 1 |
-| Web Exploitation | 2 |
+| Cryptography | 2 |
+| Web Exploitation | 4 |
 
 ## Purpose
 These writeups document my problem solving process and methodology 
